@@ -86,6 +86,18 @@ async def get_status():
     }
 
 
+@router.post("/shutdown")
+async def shutdown():
+    """Shut down the simulator process. Called from the simulator UI or OpenAVC."""
+    import os
+    import signal
+    mgr = _get_manager()
+    await mgr.stop_all()
+    # Schedule process exit after responding
+    asyncio.get_event_loop().call_later(0.5, lambda: os.kill(os.getpid(), signal.SIGTERM))
+    return {"status": "shutting_down"}
+
+
 @router.get("/available")
 async def get_available():
     mgr = _get_manager()

@@ -1,4 +1,4 @@
-import { Monitor } from "lucide-react";
+import { Monitor, Power } from "lucide-react";
 import { useSimStore } from "./store/useSimStore";
 import { DeviceCard } from "./components/DeviceCard";
 import { ProtocolLog } from "./components/ProtocolLog";
@@ -7,6 +7,14 @@ import { NetworkConditions } from "./components/NetworkConditions";
 export default function App() {
   const { devices, log, connected, clearLog } = useSimStore();
 
+  const handleShutdown = async () => {
+    if (!confirm("Stop the simulator and close this window?")) return;
+    try {
+      await fetch("/api/shutdown", { method: "POST" });
+      setTimeout(() => window.close(), 500);
+    } catch { /* process is shutting down */ }
+  };
+
   return (
     <div className="app">
       {/* Header */}
@@ -14,6 +22,9 @@ export default function App() {
         <div className="header-title">
           <Monitor size={20} />
           OpenAVC Simulator
+          <span style={{ fontSize: 11, color: "var(--text-muted)", fontWeight: 400 }}>
+            {devices.length} device{devices.length !== 1 ? "s" : ""}
+          </span>
         </div>
         <div className="header-right">
           <NetworkConditions />
@@ -21,6 +32,23 @@ export default function App() {
             <div className={`connection-dot ${connected ? "connected" : "disconnected"}`} />
             {connected ? "Connected" : "Disconnected"}
           </div>
+          <button
+            onClick={handleShutdown}
+            title="Stop simulator"
+            style={{
+              display: "flex",
+              alignItems: "center",
+              gap: 4,
+              padding: "4px 10px",
+              borderRadius: "var(--border-radius)",
+              fontSize: 12,
+              background: "rgba(239, 68, 68, 0.15)",
+              color: "#ef4444",
+            }}
+          >
+            <Power size={14} />
+            Stop
+          </button>
         </div>
       </div>
 
