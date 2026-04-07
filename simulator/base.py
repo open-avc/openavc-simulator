@@ -221,6 +221,9 @@ class BaseSimulator(ABC):
         """Serialize simulator info for the API."""
         return {
             "device_id": self.device_id,
+            "device_name": getattr(self, "_device_name", self.device_id),
+            "real_host": getattr(self, "_real_host", ""),
+            "real_port": getattr(self, "_real_port", 0),
             "driver_id": self.driver_id,
             "name": self.name,
             "category": self.category,

@@ -6,6 +6,9 @@ const BASE = "";  // Same origin — served by the simulator server
 
 export interface DeviceInfo {
   device_id: string;
+  device_name: string;
+  real_host: string;
+  real_port: number;
   driver_id: string;
   name: string;
   category: string;

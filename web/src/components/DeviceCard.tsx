@@ -55,10 +55,16 @@ export function DeviceCard({ device }: { device: DeviceInfo }) {
       <div className="device-card-header">
         <div className="icon">{icon}</div>
         <div className="info">
-          <div className="name">{device.device_id}</div>
+          <div className="name">{device.device_name || device.device_id}</div>
           <div className="driver">{device.name}</div>
         </div>
-        <div className="port-badge">:{device.port}</div>
+        {device.real_host ? (
+          <div className="port-badge" title="Configured device address">
+            {device.real_host}:{device.real_port}
+          </div>
+        ) : (
+          <div className="port-badge">:{device.port}</div>
+        )}
       </div>
 
       {/* Category-specific visual + controls */}

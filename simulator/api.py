@@ -42,6 +42,9 @@ class StartRequest(BaseModel):
     driver_id: str
     port: int = 0
     config: dict[str, Any] | None = None
+    device_name: str = ""
+    real_host: str = ""
+    real_port: int = 0
 
 
 class StateUpdate(BaseModel):
@@ -143,6 +146,9 @@ async def start_device(device_id: str, req: StartRequest):
             device_id=device_id,
             port=req.port,
             config=req.config,
+            device_name=req.device_name,
+            real_host=req.real_host,
+            real_port=req.real_port,
         )
         return sim.to_info_dict()
     except ValueError as e:

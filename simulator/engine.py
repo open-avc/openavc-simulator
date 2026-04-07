@@ -175,6 +175,9 @@ class SimulatorManager:
         device_id: str,
         port: int = 0,
         config: dict | None = None,
+        device_name: str = "",
+        real_host: str = "",
+        real_port: int = 0,
     ) -> BaseSimulator:
         """Start a simulator instance for a device.
 
@@ -199,6 +202,11 @@ class SimulatorManager:
 
         # Create the simulator instance
         simulator = self._create_instance(info, device_id, config)
+
+        # Store display metadata from the project
+        simulator._device_name = device_name or device_id
+        simulator._real_host = real_host
+        simulator._real_port = real_port
 
         # Allocate port
         if port == 0:

@@ -44,6 +44,9 @@ async def lifespan(app: FastAPI):
             await manager.start_device(
                 driver_id=device["driver_id"],
                 device_id=device["device_id"],
+                device_name=device.get("device_name", ""),
+                real_host=device.get("real_host", ""),
+                real_port=device.get("real_port", 0),
                 port=device.get("port", 0),
                 config=device.get("config"),
             )
